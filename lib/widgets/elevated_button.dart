@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class ElevatedButtonWidget extends StatelessWidget {
   final VoidCallback onPressed;
 
@@ -13,13 +14,15 @@ class ElevatedButtonWidget extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.white,
           foregroundColor: const Color.fromARGB(255, 1, 32, 58),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
           padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
           shadowColor: Colors.grey,
           surfaceTintColor: Colors.grey,
         ),
-        child: Text('Login', style: TextStyle(fontStyle: FontStyle.italic))
-        )
-        );
+        child: Text('Login', style: TextStyle(fontStyle: FontStyle.italic)),
+      ),
+    );
   }
 }

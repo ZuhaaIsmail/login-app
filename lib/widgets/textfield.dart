@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class TextFieldWidget extends StatelessWidget {
   final String hintText;
   final bool obscureText;
@@ -7,7 +8,15 @@ class TextFieldWidget extends StatelessWidget {
   final ValueChanged<String> onChanged;
   final FormFieldValidator<String> validator;
 
-  const TextFieldWidget({super.key, required this.hintText, this.obscureText = false, required this.controller, this.icon, required this.onChanged, required this.validator});
+  const TextFieldWidget({
+    super.key,
+    required this.hintText,
+    this.obscureText = false,
+    required this.controller,
+    this.icon,
+    required this.onChanged,
+    required this.validator,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +51,7 @@ class TextFieldWidget extends StatelessWidget {
           fillColor: Colors.white,
           suffixIcon: icon,
         ),
-      )
+      ),
     );
   }
 }

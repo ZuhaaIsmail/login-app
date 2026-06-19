@@ -34,106 +34,120 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(
+                  const Text(
                     'Login',
                     style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
                   ),
-                  Text(
+                  const Text(
                     'Welcome back!',
                     style: TextStyle(fontSize: 18, color: Colors.grey),
                   ),
                 ],
               ),
             ),
-            SingleChildScrollView(
-            
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.7,
-                width: double.maxFinite,
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 1, 32, 58),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(35),
-                    topRight: Radius.circular(35),
-                  ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.7,
+              width: double.maxFinite,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 1, 32, 58),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(35),
+                  topRight: Radius.circular(35),
                 ),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextFieldWidget(
-                        hintText: 'Email',
-                        controller: emailController,
+              ),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextFieldWidget(
+                      hintText: 'Email',
+                      controller: emailController,
+                      icon:
+                          emailRegex.hasMatch(emailController.text)
+                              ? const Icon(Icons.check, color: Colors.green)
+                              : const Icon(Icons.check, color: Colors.grey),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Email cannot be empty';
+                        } else if (!emailRegex.hasMatch(value)) {
+                          return 'Please enter a valid email';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        setState(() {});
+                      },
+                    ),
+                    TextFieldWidget(
+                      hintText: 'Password',
+                      obscureText: obsText,
+                      controller: passwordController,
+                      icon: IconButton(
+                        tooltip: obsText ? 'Show Password' : 'Hide Password',
+                        onPressed: () {
+                          obsText = !obsText;
+                          setState(() {});
+                        },
                         icon:
-                            emailRegex.hasMatch(emailController.text)
-                                ? const Icon(Icons.check, color: Colors.green)
-                                : const Icon(Icons.check, color: Colors.grey),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Email cannot be empty';
-                          } else if (!emailRegex.hasMatch(value)) {
-                            return 'Please enter a valid email';
-                          }
-                          return null;
-                        },
-                        onChanged: (value) {
-                          setState(() {});
-                        },
+                            obsText
+                                ? Icon(Icons.visibility_off, color: Colors.grey)
+                                : Icon(Icons.visibility),
                       ),
-                      TextFieldWidget(
-                        hintText: 'Password',
-                        obscureText: obsText,
-                        controller: passwordController,
-                        icon: IconButton(
-                          tooltip: obsText? 'Show Password': 'Hide Password',
-                          onPressed: () {
-                            obsText = !obsText;
-                            setState(() {
-                  
-                            });
-                          },
-                          icon: obsText? Icon(Icons.visibility_off, color: Colors.grey): Icon(Icons.visibility)),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Password cannot be empty';
-                          }
-                          else if (value.length < 8){
-                            return 'Password must be at least 8 characters';
-                          }
-                          if (!RegExp(r'[A-Z]').hasMatch(value)) {
-                            return 'Password must contain at least one uppercase letter';
-                          }
-                          if (!RegExp(r'[a-z]').hasMatch(value)) {
-                            return 'Password must contain at least one lowercase letter';
-                          }
-                          if (!RegExp(r'[0-9]').hasMatch(value)) {
-                            return 'Password must contain at least one digit';
-                          }
-                          if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
-                            return 'Password must contain at least one special character';
-                          }
-                          return null;
-                        },
-                        onChanged: (value) {
-                          setState(() {});
-                        },
-                      ),
-                      ElevatedButtonWidget(onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(email: emailController.text, password: passwordController.text)));
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('Please enter a valid email and password.'),
-                            backgroundColor: Colors.red.shade700,
-                            behavior: SnackBarBehavior.floating,
-                            padding: EdgeInsets.all(10),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Password cannot be empty';
+                        } else if (value.length < 8) {
+                          return 'Password must be at least 8 characters';
+                        }
+                        if (!RegExp(r'[A-Z]').hasMatch(value)) {
+                          return 'Password must contain at least one uppercase letter';
+                        }
+                        if (!RegExp(r'[a-z]').hasMatch(value)) {
+                          return 'Password must contain at least one lowercase letter';
+                        }
+                        if (!RegExp(r'[0-9]').hasMatch(value)) {
+                          return 'Password must contain at least one digit';
+                        }
+                        if (!RegExp(
+                          r'[!@#$%^&*(),.?":{}|<>]',
+                        ).hasMatch(value)) {
+                          return 'Password must contain at least one special character';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        setState(() {});
+                      },
+                    ),
+                    ElevatedButtonWidget(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder:
+                                  (context) => HomeScreen(
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                  ),
                             ),
-                        );
-                      }}),
-                    ],
-                  ),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Please enter a valid email and password.',
+                              ),
+                              backgroundColor: Colors.red.shade700,
+                              behavior: SnackBarBehavior.floating,
+                              padding: EdgeInsets.all(10),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ],
                 ),
               ),
             ),
